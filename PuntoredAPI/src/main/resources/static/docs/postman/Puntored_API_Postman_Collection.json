@@ -1,0 +1,332 @@
+{
+	"info": {
+		"_postman_id": "8ce87f7a-de77-4214-9c9c-96d4a04cb6cd",
+		"name": "Puntored API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10392044"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();",
+							"pm.environment.set(\"authToken\", response.token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "mtrQF6Q11eosqyQnkMY0JGFbGqcxVg5icvfVnX1ifIyWDvwGApJ8WUM8nHVrdSkN",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"user\": \"user0147\", \"password\": \"#3Q34Sh0NlDS\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://us-central1-puntored-dev.cloudfunctions.net/technicalTest-developer/api/auth",
+					"protocol": "https",
+					"host": [
+						"us-central1-puntored-dev",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"technicalTest-developer",
+						"api",
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Suppliers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Proveedores obtenidos exitosamente\", function () {",
+							"   const jsonData = pm.response.json();",
+							"   pm.expect(jsonData).to.be.an(\"array\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://us-central1-puntored-dev.cloudfunctions.net/technicalTest-developer/api/getSuppliers",
+					"protocol": "https",
+					"host": [
+						"us-central1-puntored-dev",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"technicalTest-developer",
+						"api",
+						"getSuppliers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buy Recharge",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Recarga exitosa\", function () {",
+							"   const jsonData = pm.response.json();",
+							"   pm.expect(jsonData.message).to.eql(\"Recarga exitosa\");",
+							"   pm.environment.set(\"transactionalID\", jsonData.transactionalID);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cellPhone\": \"3210338900\",\r\n    \"value\": 1000,\r\n    \"supplierId\": \"8753\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://us-central1-puntored-dev.cloudfunctions.net/technicalTest-developer/api/buy",
+					"protocol": "https",
+					"host": [
+						"us-central1-puntored-dev",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"technicalTest-developer",
+						"api",
+						"buy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Transactions Local",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Lista de transacciones obtenida\", function () {",
+							"   const jsonData = pm.response.json();",
+							"   pm.expect(jsonData).to.be.an(\"array\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/getAllTransactions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"getAllTransactions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Suppliers Local",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{x-api-key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/suppliers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"suppliers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate Local",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/authenticate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buy Recharge Local",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cellPhone\": \"3210338900\",\r\n    \"value\": 10000,\r\n    \"supplierId\": \"4689\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/buy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"buy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Transaction Local",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cellPhone\": \"3210338900\",\r\n    \"value\": 4000,\r\n    \"supplierId\": \"8753\",\r\n    \"transactionDate\": \"2024-11-01T16:41:40\",\r\n    \"transactionalID\": \"8ddabb11-a0d4-4e13-bfdc-7aee4f572929\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/saveTransaction",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"saveTransaction"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Transactions By CellPhone Local",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/getUserTransactions?cellPhone=3210338900",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"getUserTransactions"
+					],
+					"query": [
+						{
+							"key": "cellPhone",
+							"value": "3210338900"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "x-api-key",
+			"value": "mtrQF6Q11eosqyQnkMY0JGFbGqcxVg5icvfVnX1ifIyWDvwGApJ8WUM8nHVrdSkN"
+		}
+	]
+}
