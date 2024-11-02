@@ -1,4 +1,4 @@
-# Repositorio Puntored Prueba
+# Repositorio PuntoRed Prueba
 
 Este repositorio contiene la implementación de una API para la plataforma Puntored, con el proposito de contectarse a la API de un tercero y ofrecer servicio de recargas de operadores móviles
 La estructura está organizada en varios directorios y archivos específicos para facilitar el desarrollo de la parte del backend y una página Web que se conecte al API desarrollada.
