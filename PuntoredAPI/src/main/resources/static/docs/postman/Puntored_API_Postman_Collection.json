@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8ce87f7a-de77-4214-9c9c-96d4a04cb6cd",
+		"_postman_id": "b003d6a6-acfc-4bb0-9a7c-b6a523f48317",
 		"name": "Puntored API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "10392044"
@@ -198,8 +198,8 @@
 				"method": "GET",
 				"header": [
 					{
-						"key": "x-api-key",
-						"value": "{{x-api-key}}",
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
 						"type": "text"
 					}
 				],
@@ -219,33 +219,19 @@
 			"response": []
 		},
 		{
-			"name": "Authenticate Local",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/api/authenticate",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"authenticate"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Buy Recharge Local",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"cellPhone\": \"3210338900\",\r\n    \"value\": 10000,\r\n    \"supplierId\": \"4689\"\r\n}",
+					"raw": "{\r\n    \"cellPhone\": \"3210338901\",\r\n    \"value\": 10000,\r\n    \"supplierId\": \"4689\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -327,6 +313,11 @@
 		{
 			"key": "x-api-key",
 			"value": "mtrQF6Q11eosqyQnkMY0JGFbGqcxVg5icvfVnX1ifIyWDvwGApJ8WUM8nHVrdSkN"
+		},
+		{
+			"key": "authToken",
+			"value": "Authorization",
+			"type": "default"
 		}
 	]
 }

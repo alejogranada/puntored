@@ -1,5 +1,6 @@
 package com.example.PuntoredAPI.config;
 
+import com.example.PuntoredAPI.security.BearerTokenInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
@@ -8,8 +9,10 @@ import org.springframework.web.client.RestTemplate;
 public class RestTemplateConfig {
 
     @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
+    public RestTemplate restTemplate(BearerTokenInterceptor bearerTokenInterceptor) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getInterceptors().add(bearerTokenInterceptor);
+        return restTemplate;
     }
 
 }
