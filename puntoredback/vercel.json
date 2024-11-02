@@ -1,5 +1,4 @@
 {
-  "root": "puntoredback",
   "builds": [
     {
       "src": "puntoredback/server.js",
