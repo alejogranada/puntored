@@ -22,7 +22,8 @@ const RecargaComponent = ({ token }) => {
     useEffect(() => {
         const fetchSuppliers = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_PUNTO_RED_URL}/suppliers`, {
+                const token = localStorage.getItem('token');
+                const response = await axios.get(`${process.env.REACT_APP_PUNTO_RED_URL}/getSuppliers`, {
                     headers: {
                         'Authorization': token,
                     },
@@ -45,6 +46,7 @@ const RecargaComponent = ({ token }) => {
         setError('');
         setSuccessMessage('');
         setLoading(true); // Inicia el estado de carga
+        const token = localStorage.getItem('token');
 
         try {
             const response = await axios.post(

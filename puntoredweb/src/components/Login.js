@@ -17,7 +17,7 @@ const Login = () => {
 
         try {
             const response = await axios.post(
-                `${process.env.REACT_APP_PUNTO_RED_URL}`,
+                `${process.env.REACT_APP_PUNTO_RED_URL}/auth`,
                 { user, password },
                 {
                     headers: {

@@ -15,7 +15,7 @@ const ConsultaTransacciones = () => {
 
         const fetchSuppliers = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/suppliers`, { // Solo endpoint de prueba hacia el API
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/suppliers`, {
                     headers: {
                         'Authorization': token,
                     },
