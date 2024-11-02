@@ -22,7 +22,7 @@ const RecargaComponent = ({ token }) => {
     useEffect(() => {
         const fetchSuppliers = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/suppliers', {
+                const response = await axios.get(`${process.env.REACT_APP_PUNTO_RED_URL}/suppliers`, {
                     headers: {
                         'Authorization': token,
                     },
@@ -48,7 +48,7 @@ const RecargaComponent = ({ token }) => {
 
         try {
             const response = await axios.post(
-                'http://localhost:8080/api/buy',
+                `${process.env.REACT_APP_API_URL}/buy`,
                 { cellPhone, value, supplierId: selectedSupplierId },
                 {
                     headers: {

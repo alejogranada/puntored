@@ -17,11 +17,11 @@ const Login = () => {
 
         try {
             const response = await axios.post(
-                'https://us-central1-puntored-dev.cloudfunctions.net/technicalTest-developer/api/auth',
+                `${process.env.REACT_APP_AUTH_URL}`,
                 { user, password },
                 {
                     headers: {
-                        'x-api-key': 'mtrQF6Q11eosqyQnkMY0JGFbGqcxVg5icvfVnX1ifIyWDvwGApJ8WUM8nHVrdSkN',
+                        'x-api-key': process.env.REACT_APP_API_KEY,
                     },
                 }
             );

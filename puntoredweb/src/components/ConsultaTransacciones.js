@@ -15,12 +15,12 @@ const ConsultaTransacciones = () => {
 
         const fetchSuppliers = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/suppliers', {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/suppliers`, {
                     headers: {
                         'Authorization': token,
                     },
                 });
-                setSuppliers(response.data);                
+                setSuppliers(response.data);
             } catch (err) {
                 console.error('Error fetching suppliers', err);
                 setError('No se pudieron cargar los proveedores.');
@@ -31,7 +31,7 @@ const ConsultaTransacciones = () => {
 
         const fetchTransacciones = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/getAllTransactions', {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/getAllTransactions`, {
                     headers: {
                         Authorization: token,
                     },
