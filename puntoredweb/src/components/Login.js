@@ -17,11 +17,11 @@ const Login = () => {
 
         try {
             const response = await axios.post(
-                `${process.env.REACT_APP_AUTH_URL}`,
+                `${process.env.REACT_APP_PUNTO_RED_URL}`,
                 { user, password },
                 {
                     headers: {
-                        'x-api-key': process.env.REACT_APP_API_KEY,
+                        'x-api-key': process.env.REACT_APP_PUNTO_RED_API_KEY,
                     },
                 }
             );

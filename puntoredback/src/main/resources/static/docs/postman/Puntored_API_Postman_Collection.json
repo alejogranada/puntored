@@ -178,12 +178,14 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/api/getAllTransactions",
-					"protocol": "http",
+					"raw": "https://puntored-production.up.railway.app/api/getAllTransactions",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"puntored-production",
+						"up",
+						"railway",
+						"app"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"getAllTransactions"
@@ -204,12 +206,14 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/api/suppliers",
-					"protocol": "http",
+					"raw": "https://puntored-production.up.railway.app/api/suppliers",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"puntored-production",
+						"up",
+						"railway",
+						"app"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"suppliers"
@@ -239,12 +243,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/buy",
-					"protocol": "http",
+					"raw": "https://puntored-production.up.railway.app/api/buy",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"puntored-production",
+						"up",
+						"railway",
+						"app"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"buy"
