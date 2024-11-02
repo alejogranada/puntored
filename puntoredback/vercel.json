@@ -1,15 +1,15 @@
 {
-  "version": 2,
+  "root": "puntoredback",
   "builds": [
     {
-      "src": "server.js",
+      "src": "puntoredback/server.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "server.js"
+      "dest": "puntoredback/$1"
     }
   ]
 }
