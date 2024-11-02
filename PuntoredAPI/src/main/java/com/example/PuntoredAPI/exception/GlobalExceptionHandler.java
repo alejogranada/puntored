@@ -15,13 +15,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidPhoneNumberException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleInvalidPhoneNumberException(InvalidPhoneNumberException ex) {
-        return Map.of("error", ex.getMessage());
+        return Map.of("message", ex.getMessage());
     }
 
     @ExceptionHandler(InvalidAmountException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleInvalidAmountException(InvalidAmountException ex) {
-        return Map.of("error", ex.getMessage());
+        return Map.of("message", ex.getMessage());
     }
 
     @ExceptionHandler(NoSuchElementException.class)

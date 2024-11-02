@@ -3,14 +3,13 @@ package com.example.PuntoredAPI.controller;
 import com.example.PuntoredAPI.model.Transaction;
 import com.example.PuntoredAPI.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*") // Permitir todos los orígenes
 @RequestMapping("/api")
 public class TransactionController {
 

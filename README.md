@@ -5,9 +5,9 @@ La estructura está organizada en varios directorios y archivos específicos par
 
 ## Estructura del Proyecto
 
-- **/PuntoredAPI**: Carpeta con la API en SpringBoot para exponer los endpoint consumidos por la Web para realizar las recargas segun el operador. Se tiene una Autenticación con el API utilizando token de tipo “Bearer”.
+- **/puntoredapi**: Carpeta con la API en SpringBoot para exponer los endpoint consumidos por la Web para realizar las recargas segun el operador. Se tiene una Autenticación con el API utilizando token de tipo “Bearer”.
 
-- **/PuntoredWEB**: Carpeta con la parte FrontEnd que le permita interactuar al usuario para realizar el proceso de compra de la recarga,  resumen y consulta de las transacciones.
+- **/puntoredweb**: Carpeta con la parte FrontEnd que le permita interactuar al usuario para realizar el proceso de compra de la recarga,  resumen y consulta de las transacciones.
 
 ## Uso del Proyecto **Backend**
 
