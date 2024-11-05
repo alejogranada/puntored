@@ -24,3 +24,15 @@ La estructura está organizada en varios directorios y archivos específicos par
   - **Colección de Postman (`Puntored_API_Postman_Collection.json`)**: Para importar en Postman y realizar pruebas de los endpoints de la API.
   - **README.md**: Guía de uso de la colección de Postman para pruebas.
 
+### Despliegue FrontEnd
+
+Se ha desplegado el front en el servidor de Vercel con dominio:
+
+**https://puntored.vercel.app/**
+
+
+### Despliegue Backend
+
+Se ha desplegado el API soportando la parte del back en el siguiente endpoint con apoyo de los servicio de Railway:
+
+**https://puntored-production.up.railway.app/api**
