@@ -4,7 +4,6 @@ import com.example.PuntoredAPI.exception.ClientException;
 import com.example.PuntoredAPI.exception.InvalidAmountException;
 import com.example.PuntoredAPI.exception.InvalidPhoneNumberException;
 import com.example.PuntoredAPI.exception.RechargeException;
-import com.example.PuntoredAPI.model.Transaction;
 import com.example.PuntoredAPI.repository.TransactionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -41,6 +39,7 @@ class RechargeServiceTest {
     private RestTemplate restTemplate;
 
     private final String baseUrl = "http://baseurl"; // Mock base URL
+    private String authorization = "Bearer validToken";
 
     @BeforeEach
     void setUp() {
@@ -55,7 +54,7 @@ class RechargeServiceTest {
         String supplierId = "supplier1";
 
         Exception exception = assertThrows(InvalidPhoneNumberException.class, () -> {
-            rechargeService.buyRecharge(invalidPhoneNumber, amount, supplierId);
+            rechargeService.buyRecharge(authorization, invalidPhoneNumber, amount, supplierId);
         });
 
         assertEquals("Número de teléfono inválido. Debe comenzar con '3' y tener 10 dígitos numéricos.", exception.getMessage());
@@ -68,7 +67,7 @@ class RechargeServiceTest {
         String supplierId = "supplier1";
 
         Exception exception = assertThrows(InvalidAmountException.class, () -> {
-            rechargeService.buyRecharge(validPhoneNumber, amount, supplierId);
+            rechargeService.buyRecharge(authorization, validPhoneNumber, amount, supplierId);
         });
 
         assertEquals("Monto inválido. Debe estar entre 1000 y 100000.", exception.getMessage());
@@ -81,7 +80,7 @@ class RechargeServiceTest {
         String supplierId = "supplier1";
 
         Exception exception = assertThrows(InvalidAmountException.class, () -> {
-            rechargeService.buyRecharge(validPhoneNumber, amount, supplierId);
+            rechargeService.buyRecharge(authorization, validPhoneNumber, amount, supplierId);
         });
 
         assertEquals("Monto inválido. Debe estar entre 1000 y 100000.", exception.getMessage());
@@ -99,7 +98,7 @@ class RechargeServiceTest {
                 .thenReturn(responseEntity);
 
         Exception exception = assertThrows(RechargeException.class, () -> {
-            rechargeService.buyRecharge(validPhoneNumber, amount, supplierId);
+            rechargeService.buyRecharge(authorization, validPhoneNumber, amount, supplierId);
         });
 
         assertEquals("Error inesperado al realizar la recarga: Error en la recarga: 400 BAD_REQUEST", exception.getMessage());
@@ -119,7 +118,7 @@ class RechargeServiceTest {
                 .thenThrow(httpClientErrorException);
 
         Exception exception = assertThrows(ClientException.class, () -> {
-            rechargeService.buyRecharge(validPhoneNumber, amount, supplierId);
+            rechargeService.buyRecharge(authorization, validPhoneNumber, amount, supplierId);
         });
 
         assertEquals("Error al realizar la recarga: 400 BAD_REQUEST - Bad Request", exception.getMessage());
@@ -136,7 +135,7 @@ class RechargeServiceTest {
                 .thenThrow(new RuntimeException("Unexpected error"));
 
         Exception exception = assertThrows(RechargeException.class, () -> {
-            rechargeService.buyRecharge(validPhoneNumber, amount, supplierId);
+            rechargeService.buyRecharge(authorization, validPhoneNumber, amount, supplierId);
         });
 
         assertEquals("Error inesperado al realizar la recarga: Unexpected error", exception.getMessage());

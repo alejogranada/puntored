@@ -29,6 +29,8 @@ const RecargaComponent = ({ token }) => {
                     },
                 });
                 setSuppliers(response.data);
+                // Guardar los proveedores en localStorage
+                localStorage.setItem('suppliers', JSON.stringify(response.data));
                 // Seleccionar el primer proveedor si existe
                 if (response.data.length > 0) {
                     setSelectedSupplierId(response.data[0].id);

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class TransactionService {
@@ -18,14 +17,6 @@ public class TransactionService {
     @Transactional
     public Transaction saveTransaction(Transaction transaction) {
         return transactionRepository.save(transaction);
-    }
-
-    public List<Transaction> getTransactionsByCellPhone(String cellPhone) {
-        List<Transaction> transactions = transactionRepository.findByCellPhone(cellPhone);
-        if (transactions.isEmpty()) {
-            throw new NoSuchElementException("No se han encontrado transacciones para el número de móvil indicado - " + cellPhone);
-        }
-        return transactions;
     }
 
     public List<Transaction> getTransactions() {

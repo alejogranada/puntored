@@ -4,31 +4,76 @@ import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
 import { Button, Typography, Paper } from '@mui/material';
 
+// Configurar un interceptor de petición para registrar las peticiones
+axios.interceptors.request.use(
+    (config) => {
+        console.log('Realizando petición a:', config.url);
+        console.log('Método:', config.method);
+        console.log('Datos:', config.data);
+        return config;
+    },
+    (error) => {
+        console.error('Error en la petición', error);
+        return Promise.reject(error);
+    }
+);
+
+// Configurar un interceptor de respuesta para registrar las respuestas
+axios.interceptors.response.use(
+    (response) => {
+        console.log('Respuesta recibida de:', response.config.url);
+        console.log('Datos:', response.data); // Aquí puedes ver los datos de la respuesta
+        return response;
+    },
+    (error) => {
+        console.error('Error en la respuesta:', error);
+        return Promise.reject(error);
+    }
+);
+
 const ConsultaTransacciones = () => {
     const [transacciones, setTransacciones] = useState([]);
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const [suppliers, setSuppliers] = useState([]);
 
+    // Estado para controlar si los proveedores han sido cargados
+    const [suppliersLoaded, setSuppliersLoaded] = useState(false);
+
+    // Cargar proveedores y transacciones
     useEffect(() => {
         const token = localStorage.getItem('token');
 
-        const fetchSuppliers = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/suppliers`, {
-                    headers: {
-                        'Authorization': token,
-                    },
-                });
-                setSuppliers(response.data);
-            } catch (err) {
-                console.error('Error fetching suppliers', err);
-                setError('No se pudieron cargar los proveedores.');
-            }
-        };
+        // Intentamos cargar los proveedores desde localStorage
+        const storedSuppliers = localStorage.getItem('suppliers');
+        if (storedSuppliers) {
+            setSuppliers(JSON.parse(storedSuppliers));
+            setSuppliersLoaded(true); // Indicamos que los proveedores están listos
+        } else {
+            const fetchSuppliers = async () => {
+                try {
+                    const response = await axios.get(`${process.env.REACT_APP_PUNTO_RED_URL}/getSuppliers`, {
+                        headers: {
+                            'Authorization': token,
+                        },
+                    });
+                    setSuppliers(response.data);
+                    localStorage.setItem('suppliers', JSON.stringify(response.data));
+                    setSuppliersLoaded(true); // Indicamos que los proveedores están listos
+                } catch (err) {
+                    console.error('Error fetching suppliers', err);
+                    setError('No se pudieron cargar los proveedores.');
+                }
+            };
+            fetchSuppliers();
+        }
+    }, []); // Este effect solo se ejecuta una vez cuando el componente se monta
 
-        fetchSuppliers();
+    // Ahora que los proveedores están disponibles, cargamos las transacciones
+    useEffect(() => {
+        if (!suppliersLoaded || suppliers.length === 0) return; // No hacer nada si no se cargaron los proveedores aún
 
+        const token = localStorage.getItem('token');
         const fetchTransacciones = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/getAllTransactions`, {
@@ -41,7 +86,7 @@ const ConsultaTransacciones = () => {
                     ...transaccion,
                     formattedDate: formatDate(transaccion.transactionDate),
                     formattedValue: formatCurrency(transaccion.value),
-                    supplierName: getSupplierName(transaccion.supplierId),
+                    supplierName: getSupplierName(transaccion.supplierId, suppliers),
                 }));
                 setTransacciones(formattedTransacciones);
             } catch (err) {
@@ -50,9 +95,9 @@ const ConsultaTransacciones = () => {
         };
 
         fetchTransacciones();
-    }, []);
+    }, [suppliersLoaded, suppliers]); // Este effect depende de suppliersLoaded y suppliers
 
-    const getSupplierName = (supplierId) => {
+    const getSupplierName = (supplierId, suppliers) => {
         const supplier = suppliers.find(p => p.id === supplierId);
         return supplier ? supplier.name : 'Otro';
     };
@@ -78,34 +123,17 @@ const ConsultaTransacciones = () => {
     };
 
     const columns = [
-        { field: 'id', headerName: 'ID de Transacción', minWidth: 100, flex: 1 }, // Establecer minWidth
+        { field: 'id', headerName: 'ID de Transacción', minWidth: 100, flex: 1 },
         { field: 'cellPhone', headerName: 'Teléfono', minWidth: 100, flex: 1 },
-        { field: 'formattedValue', headerName: 'Valor', minWidth: 100, flex: 1 }, // Usamos el campo formateado
+        { field: 'formattedValue', headerName: 'Valor', minWidth: 100, flex: 1 },
         { field: 'supplierName', headerName: 'Proveedor', minWidth: 100, flex: 1 },
         { field: 'formattedDate', headerName: 'Fecha', minWidth: 150, flex: 1 },
     ];
 
     return (
-        <Paper style={{ padding: '20px', height: 400 }}>
-            <Typography variant="h4" gutterBottom>Listado de Transacciones</Typography>
-            {error && <Typography color="error">{error}</Typography>}
-            <DataGrid
-                rows={transacciones}
-                columns={columns}
-                pageSize={5}
-                rowsPerPageOptions={[5, 10, 20]}
-                disableSelectionOnClick
-                autoHeight
-                initialState={{
-                    columns: {
-                        columnVisibilityModel: {
-                            // Configure visibility for each column here
-                        },
-                    },
-                }}
-            />
-
-            <div style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
+        <Paper style={{ padding: '20px' }}>
+            <div style={{ marginBottom: '20px', display: 'flex', gap: '10px' }}>
+                <Typography variant="h4" gutterBottom>Listado de Transacciones</Typography>
                 <Button variant="outlined" onClick={() => navigate('/recarga')}>
                     Hacer recarga
                 </Button>
@@ -113,6 +141,14 @@ const ConsultaTransacciones = () => {
                     Cerrar sesión
                 </Button>
             </div>
+            {error && <Typography color="error">{error}</Typography>}
+            <DataGrid
+                rows={transacciones}
+                columns={columns}
+                pageSize={5}
+                rowsPerPageOptions={[5, 10, 20]}
+                disableSelectionOnClick
+            />
         </Paper>
     );
 };

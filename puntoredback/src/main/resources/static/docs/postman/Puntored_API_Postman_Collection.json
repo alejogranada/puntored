@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "Auth",
+			"name": "PuntoRed Auth",
 			"event": [
 				{
 					"listen": "test",
@@ -57,7 +57,7 @@
 			"response": []
 		},
 		{
-			"name": "Get Suppliers",
+			"name": "PuntoRed Get Suppliers",
 			"event": [
 				{
 					"listen": "test",
@@ -68,7 +68,8 @@
 							"   pm.expect(jsonData).to.be.an(\"array\");",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -77,7 +78,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer {{authToken}}",
+						"value": "Bearer e8797850-95bb-4ca1-ac52-c99dd3c3cbad",
 						"type": "text"
 					}
 				],
@@ -99,7 +100,7 @@
 			"response": []
 		},
 		{
-			"name": "Buy Recharge",
+			"name": "PuntoRed Buy Recharge",
 			"event": [
 				{
 					"listen": "test",
@@ -121,7 +122,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer {{authToken}}",
+						"value": "Bearer e8797850-95bb-4ca1-ac52-c99dd3c3cbad",
 						"type": "text"
 					}
 				],
@@ -152,7 +153,7 @@
 			"response": []
 		},
 		{
-			"name": "List Transactions Local",
+			"name": "API Get All Transactions",
 			"event": [
 				{
 					"listen": "test",
@@ -173,21 +174,16 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer {{authToken}}",
+						"value": "Bearer e8797850-95bb-4ca1-ac52-c99dd3c3cbad",
 						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "https://puntored-production.up.railway.app/api/getAllTransactions",
-					"protocol": "https",
+					"raw": "{{ENDPOINT}}/getAllTransactions",
 					"host": [
-						"puntored-production",
-						"up",
-						"railway",
-						"app"
+						"{{ENDPOINT}}"
 					],
 					"path": [
-						"api",
 						"getAllTransactions"
 					]
 				}
@@ -195,47 +191,19 @@
 			"response": []
 		},
 		{
-			"name": "Get Suppliers Local",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer {{authToken}}",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "https://puntored-production.up.railway.app/api/suppliers",
-					"protocol": "https",
-					"host": [
-						"puntored-production",
-						"up",
-						"railway",
-						"app"
-					],
-					"path": [
-						"api",
-						"suppliers"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Buy Recharge Local",
+			"name": "API Buy Recharge",
 			"request": {
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer {{authToken}}",
+						"value": "Bearer e8797850-95bb-4ca1-ac52-c99dd3c3cbad",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"cellPhone\": \"3210338901\",\r\n    \"value\": 10000,\r\n    \"supplierId\": \"4689\"\r\n}",
+					"raw": "{\r\n    \"cellPhone\": \"3123456789\",\r\n    \"value\": 1004,\r\n    \"supplierId\": \"8753\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -243,87 +211,51 @@
 					}
 				},
 				"url": {
-					"raw": "https://puntored-production.up.railway.app/api/buy",
-					"protocol": "https",
+					"raw": "{{ENDPOINT}}/buy",
 					"host": [
-						"puntored-production",
-						"up",
-						"railway",
-						"app"
+						"{{ENDPOINT}}"
 					],
 					"path": [
-						"api",
 						"buy"
 					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Save Transaction Local",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"cellPhone\": \"3210338900\",\r\n    \"value\": 4000,\r\n    \"supplierId\": \"8753\",\r\n    \"transactionDate\": \"2024-11-01T16:41:40\",\r\n    \"transactionalID\": \"8ddabb11-a0d4-4e13-bfdc-7aee4f572929\"\r\n}\r\n",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/saveTransaction",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"saveTransaction"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get User Transactions By CellPhone Local",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/api/getUserTransactions?cellPhone=3210338900",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"getUserTransactions"
-					],
-					"query": [
-						{
-							"key": "cellPhone",
-							"value": "3210338900"
-						}
-					]
-				}
+				"description": "Realiza una recarga accediendo al endpoint de PuntoRed y la guarda en BD"
 			},
 			"response": []
 		}
 	],
-	"variable": [
+	"event": [
 		{
-			"key": "x-api-key",
-			"value": "mtrQF6Q11eosqyQnkMY0JGFbGqcxVg5icvfVnX1ifIyWDvwGApJ8WUM8nHVrdSkN"
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
 		},
 		{
-			"key": "authToken",
-			"value": "Authorization",
-			"type": "default"
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "ENDPOINTLOCAL",
+			"value": "http://localhost:8080/api",
+			"type": "string"
+		},
+		{
+			"key": "ENDPOINTPDN",
+			"value": "https://puntored-production.up.railway.app/api",
+			"type": "string"
 		}
 	]
 }

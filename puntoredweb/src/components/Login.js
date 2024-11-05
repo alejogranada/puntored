@@ -10,10 +10,20 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
+    const validateForm = () => {
+        if (!user || !password) {
+            setError('Usuario y Contraseña son requeridos');
+            return false;
+        }
+        return true;
+    };
+
     const handleLogin = async (e) => {
         e.preventDefault();
         setError('');
         setLoading(true);
+
+        if (!validateForm()) return;
 
         try {
             const response = await axios.post(
@@ -29,8 +39,14 @@ const Login = () => {
             localStorage.setItem('token', response.data.token);
             navigate('/recarga');
         } catch (error) {
-            console.log('handleLogin.response:', error);
-            setError('Credenciales incorrectas. Intenta de nuevo.');
+            console.error('handleLogin.error:', error);
+            if (error.response) {
+                setError(error.response.data?.message || 'Credenciales incorrectas.');
+            } else if (error.request) {
+                setError('No se pudo conectar con el servidor');
+            } else {
+                setError('Error desconocido');
+            }
         } finally {
             setLoading(false);
         }

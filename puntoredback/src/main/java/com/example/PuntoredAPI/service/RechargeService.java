@@ -9,6 +9,7 @@ import com.example.PuntoredAPI.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -34,24 +35,26 @@ public class RechargeService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    public RechargeService(RestTemplate restTemplate,
-                           @Value("${puntored.api.base-url}") String baseUrl) {
+    public RechargeService(RestTemplate restTemplate, @Value("${puntored.api.base-url}") String baseUrl) {
         this.restTemplate = restTemplate;
         this.baseUrl = baseUrl;
     }
 
-    public Map<String, String> buyRecharge(String cellPhone, int value, String supplierId) {
+    public Map<String, String> buyRecharge(String authorization, String cellPhone, int value, String supplierId) {
         validateCellPhone(cellPhone);
         validateAmount(value);
 
         String url = baseUrl + "/buy";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("authorization", authorization);
 
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("cellPhone", cellPhone);
         requestBody.put("value", String.valueOf(value));
         requestBody.put("supplierId", supplierId);
 
-        HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody);
+        HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
 
         try {
             ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Map.class);

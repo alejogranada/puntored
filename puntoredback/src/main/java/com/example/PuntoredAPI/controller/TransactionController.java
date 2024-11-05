@@ -11,7 +11,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*") // Permitir todos los orígenes
 @RequestMapping("/api")
 public class TransactionController {
 
@@ -28,16 +27,6 @@ public class TransactionController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(null); // O devolver un objeto de error más detallado
         }
-    }
-
-    @GetMapping("/getUserTransactions")
-    public ResponseEntity<List<Transaction>> getUserTransactions(@RequestParam String cellPhone) {
-        if (cellPhone == null || cellPhone.trim().isEmpty()) {
-            return ResponseEntity.badRequest().build(); // 400 Bad Request
-        }
-
-        List<Transaction> transactions = transactionService.getTransactionsByCellPhone(cellPhone);
-        return ResponseEntity.ok(transactions);
     }
 
     @GetMapping("/getAllTransactions")

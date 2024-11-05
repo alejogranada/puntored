@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+
 @Component
 public class AuthTokenFilter extends OncePerRequestFilter {
 
@@ -15,6 +16,12 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+
+        // Esto permitirá que las solicitudes OPTIONS pasen sin autenticación, lo cual es necesario para cumplir con CORS.
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         // Obtener el token de la cabecera Authorization
         String authorizationHeader = request.getHeader("Authorization");
